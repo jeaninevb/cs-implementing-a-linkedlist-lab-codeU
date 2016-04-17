@@ -86,6 +86,36 @@ public class MyLinkedList<E> implements List<E> {
 	@Override
 	public void add(int index, E element) {
 		// TODO: fill this in
+
+		if (index < 0 || index > size) {
+                        throw new IndexOutOfBoundsException();
+                }
+		if(index == 0){
+			//insert at front
+			head = new Node(element, head);
+		}
+		else{
+
+			Node current = getNode(index - 1);
+			Node newNode = new Node(element, current.next);
+			current.next = newNode;
+		}
+		
+				
+		size++;
+
+	//	Node temp = new Node(element);
+	//	Node curr = head;
+	//	if(head == null){
+	//		head = temp;
+	//	}
+	//	else{
+	//		while(curr.next != null){
+	//			curr = curr.next;
+	//		}
+	//		curr.next = temp;
+	//	}
+
 	}
 
 	@Override
@@ -147,6 +177,26 @@ public class MyLinkedList<E> implements List<E> {
 	@Override
 	public int indexOf(Object target) {
 		// TODO: fill this in
+		int index = 0;
+		if(target == null){
+			for(Node x = head; x != null; x = x.next){
+				if(x.cargo == null){
+					return index;
+				}
+				index++;
+			}
+
+		}
+		else{
+			for(Node x = head; x != null; x = x.next){
+				if(target.equals(x.cargo)){
+					return index;
+				}
+				index++;
+			
+			}
+		
+		}
 		return -1;
 	}
 
@@ -202,13 +252,72 @@ public class MyLinkedList<E> implements List<E> {
 	@Override
 	public boolean remove(Object obj) {
 		// TODO: fill this in
-		return false;
-	}
+		if(obj == null){
+		//	for(Node x = head; x != null; x = x.next){
+		//		if(x.cargo == null){
+					
+					return false;
+		//		}
+	
+		//	}
+		}
+		else{
 
+			for(Node x = head; x != null; x = x.next){
+				
+				if(obj.equals(x.cargo)){
+						
+				
+					if(x.next != null){
+						Node temp = x.next;
+						x.cargo = temp.cargo;
+						x.next = temp.next;
+						temp = null;
+					}
+					
+					//remove from tail
+					else{
+						if(head.next == null){
+							head = null;
+						}
+						else{
+						Node curr = head;
+						while(curr.next.next != null){
+								curr = curr.next;
+						}
+						curr.next = null;	
+						}	
+					}
+					size--;
+					return true;
+				}
+			}
+		}
+
+		return false;
+	
+	}
+	
 	@Override
 	public E remove(int index) {
 		// TODO: fill this in
-		return null;
+		if (index < 0 || index >= size) {
+			throw new IndexOutOfBoundsException();
+		}
+		if(index == 0){
+			Node remove = head;
+			head = head.next;
+			size--;
+			return remove.cargo;
+		}
+		else{
+			Node current = getNode(index-1);
+			Node remove = current.next;
+			current.next = current.next.next;
+			size--;	
+			return remove.cargo;
+		}
+
 	}
 
 	@Override
